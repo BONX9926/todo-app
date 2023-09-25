@@ -34,4 +34,22 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
 # todo-app
+
+Present
+
+1. Set up project
+   1. CLI explain & select option
+2. Create component
+   1. Create component Add task
+      1. Use modal
+      2. Form create
+   2. Create component Todo list
+   3. Create component task
+      1. Use modal
+      2. Form update
+   4. Create component modal
+3. Create to do
+4. Update to do
+5. Delete to do
