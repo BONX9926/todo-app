@@ -13,6 +13,7 @@ import {
   getTodoList, 
   updateTask 
 } from "@/services/todo";
+import moment from "moment";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -56,7 +57,7 @@ export default function Home() {
     if(result.status && result.data){
       setList(prev => {
         if(!prev) return;
-        return prev.map(e => e.id === taskId ? result.data : e)
+        return prev.map(e => e.id === taskId ? result.data : e).sort((a, b) => moment(b.updatedAt).diff(a.updatedAt))
       })
     }
 
