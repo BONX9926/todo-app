@@ -4,9 +4,20 @@ import ModalForm, { FormData } from "@/components/modal-form"
 import { TaskContentProps } from "@/components/task";
 import TodoList from "@/components/todo-list";
 import useDialog from "@/hooks/use-dialog";
+import { useToast } from "@/hooks/use-toast";
+import { 
+  PayloadCreateTask, 
+  PayloadUpdateTask, 
+  createTask, 
+  deleteTask, 
+  getTodoList, 
+  updateTask 
+} from "@/services/todo";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+
+  const { toast } = useToast();
 
   // state
   const [list, setList] = useState<TaskContentProps[]>();
@@ -14,7 +25,63 @@ export default function Home() {
   const { open, data, setOpen, setData } = useDialog<TaskContentProps>();
 
   // function 
+  const onCreateTask = async(values: FormData) => {
+    const payload: PayloadCreateTask = {
+      title: values.title
+    }
+
+    const result = await createTask(payload)
+
+    if(result.status && result.data){
+      setList(prev => {
+        if(!prev) return;
+        return [result.data, ...prev]
+      })
+    }
+
+    toast({title: result.status ? "Success" : "Error", description: result.message})
+  }
+
+  const onUpdateTask = async(taskId: string, values: FormData, done?: boolean) => {
+    let payload: PayloadUpdateTask = {
+      title: values.title
+    }
+
+    if(done !== undefined) {
+      payload = {...payload, done}
+    }
+
+    const result = await updateTask(taskId, payload)
+
+    if(result.status && result.data){
+      setList(prev => {
+        if(!prev) return;
+        return prev.map(e => e.id === taskId ? result.data : e)
+      })
+    }
+
+    toast({title: result.status ? "Success" : "Error", description: result.message})
+  }
+
+  const onDeleteTask = async(taskId: string) => {
+    const result = await deleteTask(taskId);
+
+    if(result.status && result.data){
+      setList(prev => {
+        if(!prev) return;
+        return prev.filter(e => e.id !== taskId)
+      })
+    }
+    toast({title: result.status ? "Success" : "Error", description: result.message})
+  }
+
   const onSubmit = (values: FormData) => {
+    setOpen(false);
+    if(!data){
+      onCreateTask(values)
+    }else{
+      onUpdateTask(data.id, values)
+    }
   }
 
   const onEditClick = (value: TaskContentProps) => {
@@ -23,21 +90,29 @@ export default function Home() {
   }
 
   const onDeleteClick = (value: TaskContentProps) => {
-    
+    const taskId = value.id
+    onDeleteTask(taskId)
   }
 
   const onCheckedChange = (checked: boolean, value: TaskContentProps) => {
-    setList((prev) => {
-      if(!prev) return;
-      return prev.map(e => e.id === value.id ? {...e, done: checked} : e)
-    })
+    const taskId = value.id
+    const values: FormData =  {
+      title: value.title
+    }
+
+    onUpdateTask(taskId, values, checked)
   }
 
   useEffect(() => {
-    // mock api
-    setTimeout(() => {
-      setList([])
-    }, 1000);
+    (async() => {
+      const result = await getTodoList();
+
+      let list:TaskContentProps[] = [];
+      if(result.status && result.data){
+        list = result.data;
+      }
+      setList(list)
+    })();
   },[]) 
 
   return (

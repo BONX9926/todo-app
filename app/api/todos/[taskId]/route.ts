@@ -66,7 +66,7 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json(SuccessResponse(updateTask),{ status: 200 });
+    return NextResponse.json(SuccessResponse(updateTask, "Update task success."),{ status: 200 });
   } catch (error) {
     console.log("[TODO_PATCH]", error);
     return NextResponse.json(ErrorResponse("Internal error."), { status: 500 });
@@ -100,7 +100,7 @@ export async function DELETE(
       },
     });
 
-    return NextResponse.json(SuccessResponse(deleteTask), { status: 202 });
+    return NextResponse.json(SuccessResponse(deleteTask, "Delete task success."), { status: 202 });
   } catch (error) {
     console.log("[TODO_DELETE]", error);
     return NextResponse.json(ErrorResponse("Internal error."), { status: 500 });

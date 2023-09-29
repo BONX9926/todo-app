@@ -2,6 +2,9 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "@/components/ui/toaster"
+import axios from 'axios'
+
+axios.defaults.baseURL = process.env.BASE_URL
 
 const inter = Inter({ subsets: ["latin"] })
 

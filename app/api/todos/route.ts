@@ -17,7 +17,7 @@ export async function POST(req: Request, res: Response) {
       },
     });
 
-    return NextResponse.json(SuccessResponse(task),{status: 201});
+    return NextResponse.json(SuccessResponse(task, "Create task success."),{status: 201});
   } catch (error) {
     console.error("[TODO_POST]", error);
     return NextResponse.json(ErrorResponse("Internal error."), { status: 500 });
@@ -28,7 +28,11 @@ export async function POST(req: Request, res: Response) {
 // get todos
 export async function GET(req: Request, res: Response) {
   try {
-    const todos = await prismadb.todo.findMany();
+    const todos = await prismadb.todo.findMany({
+      orderBy: {
+        updatedAt: "desc"
+      }
+    });
 
     return NextResponse.json(SuccessResponse(todos), {status: 200});
   } catch (error) {
