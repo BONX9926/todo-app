@@ -68,26 +68,25 @@ const ModalForm: FC<ModalFormProps> = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="flex gap-5 items-center">
-              {typeModal === "create" ||
-                (typeModal === "edit" && (
-                  <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>What are you thinking?</FormLabel>
-                        <FormControl>
-                          <Input
-                            className="w-full border border-red-500"
-                            placeholder="Type here... 😬😱🥶"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ))}
+              {typeModal === "create" || typeModal === "edit" ? (
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>What are you thinking?</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="w-full border border-red-500"
+                          placeholder="Type here... 😬😱🥶"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ) : null}
 
               <div
                 className={
