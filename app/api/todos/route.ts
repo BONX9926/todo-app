@@ -1,25 +1,27 @@
 import prismadb from "@/lib/prismadb";
+import { ErrorResponse, SuccessResponse } from "@/utils/response";
 import { NextResponse } from "next/server";
 
 // create todo
 export async function POST(req: Request, res: Response) {
   try {
-    const { title, done } = await req.json();
+    const { title } = await req.json();
 
     if (!title) {
-      return new NextResponse("Title is required", { status: 400 });
+      return NextResponse.json(ErrorResponse("Title is required."), { status: 400 });
     }
 
-    const todo = await prismadb.todo.create({
+    const task = await prismadb.todo.create({
       data: {
         title,
       },
     });
 
-    return NextResponse.json(todo);
+    return NextResponse.json(SuccessResponse(task),{status: 201});
   } catch (error) {
     console.error("[TODO_POST]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return NextResponse.json(ErrorResponse("Internal error."), { status: 500 });
+
   }
 }
 
@@ -28,9 +30,9 @@ export async function GET(req: Request, res: Response) {
   try {
     const todos = await prismadb.todo.findMany();
 
-    return NextResponse.json(todos);
+    return NextResponse.json(SuccessResponse(todos), {status: 200});
   } catch (error) {
     console.error("[TODO_GET]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return NextResponse.json(ErrorResponse("Internal error."), { status: 500 });
   }
 }
