@@ -10,9 +10,9 @@ interface TodoListProps extends Omit<TaskProps, "data"> {
 const TodoList:FC<TodoListProps> = ({list, onEditClick, onDeleteClick, onCheckedChange}) => {
   return (
     <ul className="mt-5 max-h-[600px] overflow-y-auto">
-      { !list ? (
-        <TaskSkeleton/>
-      ) : list.length > 0 ? list.map((data, index) => (
+      { !list ? Array.from(Array(5).keys()).map((_,index) => (
+        <TaskSkeleton key={index.toString()}/>)
+      )  : list.length > 0 ? list.map((data, index) => (
         <Task 
           key={index.toString()} 
           data={data} 

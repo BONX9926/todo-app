@@ -14,6 +14,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { cn } from "@/lib/utils";
 
 export type FormData = z.infer<typeof TodoSchema>;
 
@@ -96,18 +97,14 @@ const ModalForm: FC<ModalFormProps> = ({
                 {typeModal === "delete" ? (
                   <>
                     <Button
-                      className="translate-y-4 mx-3 bg-gray-500 hover:bg-gray-600"
+                      className="mx-3 bg-gray-500 hover:bg-gray-600"
                       type="button"
                       onClick={onCancel}
                     >
                       Cancel
                     </Button>
                     <Button
-                      className={
-                        typeModal === "delete"
-                          ? "translate-y-4 bg-red-500 hover:bg-red-600"
-                          : "translate-y-4"
-                      }
+                      className={cn({"bg-red-500 hover:bg-red-600": typeModal === "delete"})}
                       type="button"
                       onClick={onClickConfirm}
                     >
