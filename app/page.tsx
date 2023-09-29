@@ -101,6 +101,11 @@ export default function Home() {
     }
   };
 
+  const onCreate = () => {
+    setTypeModal("create");
+    setOpen(true);
+  };
+
   const onEditClick = (value: TaskContentProps) => {
     setTypeModal("edit");
     setOpen(true);
@@ -154,7 +159,7 @@ export default function Home() {
       />
       <h1 className="text-2xl font-bold mb-3 capitalize">todo list app</h1>
       <div className="w-2/3">
-        <AddTask onClick={() => setOpen(true)} />
+        <AddTask onClick={() => onCreate()} />
         <TodoList
           list={list}
           onEditClick={onEditClick}
