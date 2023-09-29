@@ -19,10 +19,10 @@ export default function Home() {
 
   const { toast } = useToast();
 
+  const { open, data, setOpen, setData } = useDialog<TaskContentProps>();
+
   // state
   const [list, setList] = useState<TaskContentProps[]>();
-
-  const { open, data, setOpen, setData } = useDialog<TaskContentProps>();
 
   // function 
   const onCreateTask = async(values: FormData) => {
